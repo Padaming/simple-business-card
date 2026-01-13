@@ -63,13 +63,13 @@
 ### 安裝依賴
 
 ```bash
-npm install
+bun install
 ```
 
 ### 本地開發
 
 ```bash
-npm run dev
+bun dev
 ```
 
 開啟瀏覽器訪問 [http://localhost:3000](http://localhost:3000)
@@ -77,13 +77,13 @@ npm run dev
 ### 建置專案
 
 ```bash
-npm run build
+bun run build
 ```
 
 ### 執行測試
 
 ```bash
-npm test
+bun run test
 ```
 
 ## 📝 如何新增名片
@@ -183,7 +183,7 @@ const nextConfig = {
 
 ```bash
 # 建置專案
-npm run build
+bun run build
 
 # 此時會在 out/ 目錄產生靜態檔案
 ```
@@ -200,7 +200,7 @@ npm run build
 4. 推送程式碼到 `main` 分支，將自動觸發部署
 
 Workflow 會自動執行以下步驟：
-- 安裝依賴
+- 安裝依賴 (Bun)
 - 建置專案
 - 部署到 GitHub Pages
 
@@ -210,13 +210,10 @@ Workflow 會自動執行以下步驟：
 
 ```bash
 # 建置專案
-npm run build
+bun run build
 
-# 安裝 gh-pages 工具
-npm install -g gh-pages
-
-# 部署到 gh-pages 分支
-gh-pages -d out
+# 使用 bunx 執行 gh-pages 部署
+bunx gh-pages -d out
 ```
 
 ### 6. 啟用 GitHub Pages（首次設定）
@@ -234,13 +231,13 @@ gh-pages -d out
 
 ```bash
 # 執行所有測試
-npm test
+bun run test
 
 # 執行測試並顯示覆蓋率
-npm test -- --coverage
+bun run test -- --coverage
 
 # 監聽模式
-npm test -- --watch
+bun run test -- --watch
 ```
 
 測試檔案位於 `__tests__/` 目錄。

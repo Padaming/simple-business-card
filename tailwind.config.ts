@@ -12,6 +12,10 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        accent: "#5DAC81",
+        "accent-dark": "#4a8a68",
+        "soft-green": "#B5CAA0",
+        beige: "#FCFAF2",
       },
     },
   },

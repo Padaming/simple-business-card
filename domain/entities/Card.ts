@@ -25,6 +25,7 @@ export interface Card {
   bio?: string;
   avatar?: string;
   theme: ThemeType;
+  layout?: 'centered' | 'two-column';
   accentColor?: string;
   contact?: ContactInfo;
   links?: SocialLink[];
