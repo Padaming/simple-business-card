@@ -3,8 +3,6 @@
 import { useState } from 'react';
 import { Card, ThemeType, AVAILABLE_THEMES } from '@/domain/entities/Card';
 import { UpdateCardUseCase } from '@/domain/use-cases/UpdateCard';
-import { saveCardAction } from '@/app/actions/saveCard';
-import { useRouter } from 'next/navigation';
 import { Input } from '@/presentation/components/ui/input';
 import { Textarea } from '@/presentation/components/ui/textarea';
 import { Button } from '@/presentation/components/ui/button';
@@ -14,7 +12,6 @@ import { CardView } from './CardView';
 const updateCardUseCase = new UpdateCardUseCase();
 
 export function CardEditor() {
-  const router = useRouter();
   const [isSaving, setIsSaving] = useState(false);
   const [card, setCard] = useState<Card>({
     slug: 'preview',
@@ -54,24 +51,6 @@ export function CardEditor() {
     setCard(updateCardUseCase.execute(card, updates));
   };
 
-  const handleSave = async () => {
-    try {
-      setIsSaving(true);
-      const result = await saveCardAction(card);
-      if (result.success) {
-        alert('名片儲存成功！');
-        router.push(`/cards/${card.slug}`);
-      } else {
-        alert('儲存失敗，請稍後再試。');
-      }
-    } catch (error) {
-      console.error(error);
-      alert('發生錯誤。');
-    } finally {
-      setIsSaving(false);
-    }
-  };
-
   const handleExportJSON = () => {
     const dataStr = JSON.stringify(card, null, 2);
     const dataBlob = new Blob([dataStr], { type: 'application/json' });
@@ -81,6 +60,46 @@ export function CardEditor() {
     link.download = `${card.slug || 'card'}.json`;
     link.click();
     URL.revokeObjectURL(url);
+  };
+
+  const handleSave = async () => {
+    try {
+      setIsSaving(true);
+      
+      // Check for File System Access API support
+      if ('showSaveFilePicker' in window) {
+        try {
+          const handle = await (window as any).showSaveFilePicker({
+            suggestedName: `${card.slug}.json`,
+            types: [{
+              description: 'JSON Files',
+              accept: { 'application/json': ['.json'] },
+            }],
+          });
+          
+          const writable = await handle.createWritable();
+          await writable.write(JSON.stringify(card, null, 2));
+          await writable.close();
+          alert('檔案儲存成功！');
+        } catch (err) {
+            // Check for AbortError (user cancelled)
+            if ((err as any).name !== 'AbortError') {
+                console.error('Save failed:', err);
+                // Fallback to simpler export on error (or just show alert)
+                alert('儲存檔案失敗，將改為下載檔案。');
+                handleExportJSON();
+            }
+        }
+      } else {
+        // Fallback for browsers not supporting File System Access API
+        handleExportJSON();
+      }
+    } catch (error) {
+      console.error(error);
+      alert('發生錯誤。');
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const getFruitAvatar = (name: string) => {
@@ -337,11 +356,12 @@ export function CardEditor() {
             匯出 JSON
           </Button>
           <Button 
-            onClick={handleSave} 
-            className="flex-1 bg-soft-green hover:bg-[#8da379] text-white shadow-md hover:shadow-lg transition-all"
+            onClick={handleSave}
+            variant="outline"
+            className="flex-1 border-gray-200 hover:bg-gray-50 hover:text-gray-900"
             disabled={isSaving}
           >
-            {isSaving ? '儲存中...' : '儲存名片'}
+            {isSaving ? '儲存中...' : '儲存檔案'}
           </Button>
         </div>
       </div>
