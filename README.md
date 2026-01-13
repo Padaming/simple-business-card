@@ -188,47 +188,42 @@ npm run build
 # 此時會在 out/ 目錄產生靜態檔案
 ```
 
-### 4. 使用 GitHub Actions 自動部署（選用）
+### 4. 使用 GitHub Actions 自動部署
 
-建立 `.github/workflows/deploy.yml`：
+專案已包含 `.github/workflows/deploy.yml` 檔案，可自動部署到 GitHub Pages。
 
-```yaml
-name: Deploy to GitHub Pages
-
-on:
-  push:
-    branches: [ main ]
-
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    
-    steps:
-      - uses: actions/checkout@v3
-      
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-          
-      - name: Install dependencies
-        run: npm ci
-        
-      - name: Build
-        run: npm run build
-        
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./out
-```
-
-### 5. 啟用 GitHub Pages
+#### 啟用步驟：
 
 1. 前往 GitHub Repository 的 Settings
 2. 找到 Pages 選項
-3. Source 選擇 `gh-pages` 分支
+3. Source 選擇 `GitHub Actions`
+4. 推送程式碼到 `main` 分支，將自動觸發部署
+
+Workflow 會自動執行以下步驟：
+- 安裝依賴
+- 建置專案
+- 部署到 GitHub Pages
+
+### 5. 手動部署
+
+如果不使用 GitHub Actions，也可以手動部署：
+
+```bash
+# 建置專案
+npm run build
+
+# 安裝 gh-pages 工具
+npm install -g gh-pages
+
+# 部署到 gh-pages 分支
+gh-pages -d out
+```
+
+### 6. 啟用 GitHub Pages（首次設定）
+
+1. 前往 GitHub Repository 的 Settings
+2. 找到 Pages 選項
+3. Source 選擇 `GitHub Actions`（如使用 workflow）或 `gh-pages` 分支（如手動部署）
 4. 儲存後等待部署完成
 
 你的網站將會部署在 `https://{username}.github.io/{repository-name}/`
