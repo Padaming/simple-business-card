@@ -3,8 +3,6 @@ import { JsonCardRepository } from '@/infrastructure/repositories/JsonCardReposi
 import { ListCardsUseCase } from '@/domain/use-cases/ListCards';
 import { Card as CardUI, CardHeader, CardTitle, CardContent } from '@/presentation/components/ui/card';
 
-const basePath = process.env.NODE_ENV === 'production' ? '/simple-business-card' : '';
-
 export default async function HomePage() {
   const repository = new JsonCardRepository();
   const listCardsUseCase = new ListCardsUseCase(repository);
@@ -17,7 +15,7 @@ export default async function HomePage() {
         
         <div className="flex justify-center gap-4 mb-8">
           <Link
-            href={`${basePath}/editor`}
+            href="/editor"
             className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
           >
             建立新名片
@@ -32,7 +30,7 @@ export default async function HomePage() {
             </div>
           ) : (
             cards.map((card) => (
-              <Link key={card.slug} href={`${basePath}/cards/${card.slug}`}>
+              <Link key={card.slug} href={`/cards/${card.slug}`}>
                 <CardUI className="hover:shadow-lg transition-shadow cursor-pointer h-full">
                   <CardHeader>
                     {card.avatar && (

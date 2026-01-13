@@ -5,12 +5,11 @@ import { GetCardUseCase } from '@/domain/use-cases/GetCard';
 import { CardView } from '@/presentation/components/CardView';
 import { ArrowLeft } from 'lucide-react';
 
-const basePath = process.env.NODE_ENV === 'production' ? '/simple-business-card' : '';
-
-export default async function CardPage({ params }: { params: { slug: string } }) {
+export default async function CardPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
   const repository = new JsonCardRepository();
   const getCardUseCase = new GetCardUseCase(repository);
-  const card = await getCardUseCase.execute(params.slug);
+  const card = await getCardUseCase.execute(slug);
 
   if (!card) {
     notFound();
@@ -20,7 +19,7 @@ export default async function CardPage({ params }: { params: { slug: string } })
     <div className="min-h-screen bg-gray-50 py-12 px-4">
       <div className="max-w-4xl mx-auto">
         <Link
-          href={`${basePath}/`}
+          href="/"
           className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6"
         >
           <ArrowLeft size={20} />
