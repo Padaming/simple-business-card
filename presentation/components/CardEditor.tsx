@@ -3,8 +3,6 @@
 import { useState } from 'react';
 import { Card, ThemeType, AVAILABLE_THEMES } from '@/domain/entities/Card';
 import { UpdateCardUseCase } from '@/domain/use-cases/UpdateCard';
-import { saveCardAction } from '@/app/actions/saveCard';
-import { useRouter } from 'next/navigation';
 import { Input } from '@/presentation/components/ui/input';
 import { Textarea } from '@/presentation/components/ui/textarea';
 import { Button } from '@/presentation/components/ui/button';
@@ -14,8 +12,6 @@ import { CardView } from './CardView';
 const updateCardUseCase = new UpdateCardUseCase();
 
 export function CardEditor() {
-  const router = useRouter();
-  const [isSaving, setIsSaving] = useState(false);
   const [card, setCard] = useState<Card>({
     slug: 'preview',
     name: 'Your Name',
@@ -52,24 +48,6 @@ export function CardEditor() {
     }
     
     setCard(updateCardUseCase.execute(card, updates));
-  };
-
-  const handleSave = async () => {
-    try {
-      setIsSaving(true);
-      const result = await saveCardAction(card);
-      if (result.success) {
-        alert('名片儲存成功！');
-        router.push(`/cards/${card.slug}`);
-      } else {
-        alert('儲存失敗，請稍後再試。');
-      }
-    } catch (error) {
-      console.error(error);
-      alert('發生錯誤。');
-    } finally {
-      setIsSaving(false);
-    }
   };
 
   const handleExportJSON = () => {
@@ -335,13 +313,6 @@ export function CardEditor() {
         <div className="flex gap-4 pt-6">
           <Button onClick={handleExportJSON} variant="outline" className="flex-1 border-gray-200 hover:bg-gray-50 hover:text-gray-900">
             匯出 JSON
-          </Button>
-          <Button 
-            onClick={handleSave} 
-            className="flex-1 bg-soft-green hover:bg-[#8da379] text-white shadow-md hover:shadow-lg transition-all"
-            disabled={isSaving}
-          >
-            {isSaving ? '儲存中...' : '儲存名片'}
           </Button>
         </div>
       </div>
