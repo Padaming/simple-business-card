@@ -12,6 +12,7 @@ import { CardView } from './CardView';
 const updateCardUseCase = new UpdateCardUseCase();
 
 export function CardEditor() {
+  const [isSaving, setIsSaving] = useState(false);
   const [card, setCard] = useState<Card>({
     slug: 'preview',
     name: 'Your Name',
@@ -59,6 +60,46 @@ export function CardEditor() {
     link.download = `${card.slug || 'card'}.json`;
     link.click();
     URL.revokeObjectURL(url);
+  };
+
+  const handleSave = async () => {
+    try {
+      setIsSaving(true);
+      
+      // Check for File System Access API support
+      if ('showSaveFilePicker' in window) {
+        try {
+          const handle = await (window as any).showSaveFilePicker({
+            suggestedName: `${card.slug}.json`,
+            types: [{
+              description: 'JSON Files',
+              accept: { 'application/json': ['.json'] },
+            }],
+          });
+          
+          const writable = await handle.createWritable();
+          await writable.write(JSON.stringify(card, null, 2));
+          await writable.close();
+          alert('檔案儲存成功！');
+        } catch (err) {
+            // Check for AbortError (user cancelled)
+            if ((err as any).name !== 'AbortError') {
+                console.error('Save failed:', err);
+                // Fallback to simpler export on error (or just show alert)
+                alert('儲存檔案失敗，將改為下載檔案。');
+                handleExportJSON();
+            }
+        }
+      } else {
+        // Fallback for browsers not supporting File System Access API
+        handleExportJSON();
+      }
+    } catch (error) {
+      console.error(error);
+      alert('發生錯誤。');
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const getFruitAvatar = (name: string) => {
@@ -313,6 +354,13 @@ export function CardEditor() {
         <div className="flex gap-4 pt-6">
           <Button onClick={handleExportJSON} variant="outline" className="flex-1 border-gray-200 hover:bg-gray-50 hover:text-gray-900">
             匯出 JSON
+          </Button>
+          <Button 
+            onClick={handleSave} 
+            className="flex-1 bg-soft-green hover:bg-[#8da379] text-white shadow-md hover:shadow-lg transition-all"
+            disabled={isSaving}
+          >
+            {isSaving ? '儲存中...' : '儲存檔案'}
           </Button>
         </div>
       </div>
