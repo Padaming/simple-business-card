@@ -1,0 +1,29 @@
+{
+  "slug": "john-doe",
+  "name": "John Doe",
+  "title": "Senior Software Engineer",
+  "company": "Acme Corporation",
+  "bio": "Passionate software engineer with 10+ years of experience in building scalable web applications. Specialized in React, Node.js, and cloud architecture.",
+  "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=John",
+  "theme": "gradient",
+  "accentColor": "#4f46e5",
+  "contact": {
+    "email": "john.doe@example.com",
+    "phone": "+886-900-123-456",
+    "location": "Taipei, Taiwan"
+  },
+  "links": [
+    {
+      "platform": "github",
+      "url": "https://github.com/johndoe"
+    },
+    {
+      "platform": "linkedin",
+      "url": "https://linkedin.com/in/johndoe"
+    },
+    {
+      "platform": "twitter",
+      "url": "https://twitter.com/johndoe"
+    }
+  ]
+}
