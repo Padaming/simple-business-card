@@ -1,0 +1,15 @@
+node_modules/
+.next/
+out/
+dist/
+build/
+.DS_Store
+*.log
+.env*.local
+.vercel
+.turbo
+coverage/
+.cache/
+*.tsbuildinfo
+next-env.d.ts
+README.backup.md

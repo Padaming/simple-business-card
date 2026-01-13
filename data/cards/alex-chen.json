@@ -1,0 +1,25 @@
+{
+  "slug": "alex-chen",
+  "name": "Alex Chen",
+  "title": "Full Stack Developer",
+  "company": "Tech Innovations Ltd.",
+  "bio": "Full stack developer passionate about building efficient, scalable solutions. Experienced in modern web technologies and cloud platforms.",
+  "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex",
+  "theme": "corporate",
+  "accentColor": "#0891b2",
+  "contact": {
+    "email": "alex.chen@example.com",
+    "phone": "+886-923-456-789",
+    "location": "Kaohsiung, Taiwan"
+  },
+  "links": [
+    {
+      "platform": "github",
+      "url": "https://github.com/alexchen"
+    },
+    {
+      "platform": "linkedin",
+      "url": "https://linkedin.com/in/alexchen"
+    }
+  ]
+}

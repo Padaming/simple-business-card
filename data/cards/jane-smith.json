@@ -1,0 +1,25 @@
+{
+  "slug": "jane-smith",
+  "name": "Jane Smith",
+  "title": "Product Designer",
+  "company": "Design Studio Inc.",
+  "bio": "Creative designer focused on user experience and interface design. Love creating beautiful, functional products that users enjoy.",
+  "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Jane",
+  "theme": "minimal",
+  "accentColor": "#ec4899",
+  "contact": {
+    "email": "jane.smith@example.com",
+    "phone": "+886-912-345-678",
+    "location": "Taichung, Taiwan"
+  },
+  "links": [
+    {
+      "platform": "github",
+      "url": "https://github.com/janesmith"
+    },
+    {
+      "platform": "linkedin",
+      "url": "https://linkedin.com/in/janesmith"
+    }
+  ]
+}
