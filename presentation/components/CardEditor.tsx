@@ -356,8 +356,9 @@ export function CardEditor() {
             匯出 JSON
           </Button>
           <Button 
-            onClick={handleSave} 
-            className="flex-1 bg-soft-green hover:bg-[#8da379] text-white shadow-md hover:shadow-lg transition-all"
+            onClick={handleSave}
+            variant="outline"
+            className="flex-1 border-gray-200 hover:bg-gray-50 hover:text-gray-900"
             disabled={isSaving}
           >
             {isSaving ? '儲存中...' : '儲存檔案'}
