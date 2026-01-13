@@ -1,0 +1,26 @@
+{
+  "slug": "tt",
+  "name": "T先生",
+  "title": "Member",
+  "company": "Dxcord",
+  "bio": "Test is everything.",
+  "avatar": "",
+  "theme": "corporate",
+  "accentColor": "#4f46e5",
+  "contact": {
+    "email": "your@email.com",
+    "phone": "+886-900-000-000",
+    "location": "Taipei, Taiwan"
+  },
+  "links": [
+    {
+      "platform": "github",
+      "url": "https://github.com/username"
+    },
+    {
+      "platform": "linkedin",
+      "url": "https://linkedin.com/in/username"
+    }
+  ],
+  "layout": "centered"
+}

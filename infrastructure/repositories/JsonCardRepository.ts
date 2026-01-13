@@ -1,7 +1,7 @@
 import { Card } from '@/domain/entities/Card';
 import { CardRepository } from '@/domain/use-cases/GetCard';
-import * as fs from 'fs';
-import * as path from 'path';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
 
 export class JsonCardRepository implements CardRepository {
   private dataDir: string;
@@ -50,6 +50,20 @@ export class JsonCardRepository implements CardRepository {
     } catch (error) {
       console.error('Error listing cards:', error);
       return [];
+    }
+  }
+
+  async saveCard(card: Card): Promise<void> {
+    try {
+      if (!fs.existsSync(this.dataDir)) {
+        fs.mkdirSync(this.dataDir, { recursive: true });
+      }
+
+      const filePath = path.join(this.dataDir, `${card.slug}.json`);
+      fs.writeFileSync(filePath, JSON.stringify(card, null, 2), 'utf-8');
+    } catch (error) {
+      console.error(`Error saving card ${card.slug}:`, error);
+      throw error;
     }
   }
 }

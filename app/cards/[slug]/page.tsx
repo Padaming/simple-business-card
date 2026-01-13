@@ -16,7 +16,7 @@ export default async function CardPage({ params }: { params: Promise<{ slug: str
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4">
+    <div className="min-h-screen bg-background py-12 px-4">
       <div className="max-w-4xl mx-auto">
         <Link
           href="/"
@@ -26,7 +26,7 @@ export default async function CardPage({ params }: { params: Promise<{ slug: str
           返回首頁
         </Link>
         
-        <CardView card={card} />
+        <CardView card={card} variant="full" />
       </div>
     </div>
   );

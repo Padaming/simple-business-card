@@ -3,6 +3,7 @@ import { Card } from '../entities/Card';
 export interface CardRepository {
   getCard(slug: string): Promise<Card | null>;
   listCards(): Promise<Card[]>;
+  saveCard(card: Card): Promise<void>;
 }
 
 export class GetCardUseCase {

@@ -1,0 +1,26 @@
+{
+  "slug": "kk",
+  "name": "test",
+  "title": "Member",
+  "company": "Test Com.",
+  "bio": "Top 1",
+  "avatar": "",
+  "theme": "corporate",
+  "accentColor": "#ada9f4",
+  "contact": {
+    "email": "your@email.com",
+    "phone": "+886-900-000-000",
+    "location": "Taipei, Taiwan"
+  },
+  "links": [
+    {
+      "platform": "github",
+      "url": "https://github.com/username"
+    },
+    {
+      "platform": "linkedin",
+      "url": "https://linkedin.com/in/username"
+    }
+  ],
+  "layout": "two-column"
+}
