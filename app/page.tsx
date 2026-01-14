@@ -25,7 +25,7 @@ export default async function HomePage() {
               <Button
                 className="inline-flex items-center gap-2 px-10 py-5 border-2 border-[#D9CD90] bg-[#FCFAF2] text-gray-900 rounded-full hover:bg-[#D9CD90] hover:text-white transition-all text-lg font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-1 h-auto"
               >
-                立即免費建立
+                立即建立
               </Button>
             </Link>
           </div>

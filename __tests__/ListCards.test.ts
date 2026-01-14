@@ -17,6 +17,10 @@ class MockCardRepository implements CardRepository {
   async listCards(): Promise<Card[]> {
     return this.cards;
   }
+
+  async saveCard(card: Card): Promise<void> {
+    this.cards.push(card);
+  }
 }
 
 describe('ListCardsUseCase', () => {

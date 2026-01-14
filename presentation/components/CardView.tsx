@@ -1,7 +1,7 @@
 'use client';
 
 import { Card, ThemeType } from '@/domain/entities/Card';
-import { Mail, Phone, MapPin, Github, Linkedin, Twitter } from 'lucide-react';
+import { Mail, Phone, MapPin, Github, Linkedin, Twitter, Facebook, Instagram, Youtube, Link as LinkIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface CardViewProps {
@@ -12,6 +12,23 @@ interface CardViewProps {
 export function CardView({ card, variant = 'preview' }: CardViewProps) {
   const themeClasses = getThemeClasses(card.theme);
   const isTwoColumn = card.layout === 'two-column';
+  
+  // Helper to map tailwind direction to css degrees
+  const getGradientDirection = (dir?: string) => {
+      const map: Record<string, string> = { 
+          'to-r': '90deg', 'to-l': '-90deg', 'to-t': '0deg', 'to-b': '180deg', 
+          'to-br': '135deg', 'to-bl': '-135deg', 'to-tr': '45deg', 'to-tl': '-45deg' 
+      };
+      return map[dir || 'to-br'] || '135deg';
+  };
+
+  // Custom styles for dynamic gradient
+  const containerStyle = card.theme === 'gradient' && card.gradientConfig
+    ? { 
+        backgroundImage: `linear-gradient(${getGradientDirection(card.gradientConfig.direction)}, ${card.gradientConfig.from}, ${card.gradientConfig.to})`,
+        boxShadow: `0 20px 25px -5px ${card.gradientConfig.from}40, 0 8px 10px -6px ${card.gradientConfig.from}40`
+      } 
+    : undefined;
   
   // Size classes based on variant
   // Use percentage of container width instead of screen width to prevent excessive size
@@ -38,23 +55,26 @@ export function CardView({ card, variant = 'preview' }: CardViewProps) {
     return fruits[index];
   };
 
-  const getPlatformIcon = (platform: string) => {
+  const getIcon = (link: { platform: string; iconUrl?: string }) => {
     const iconProps = { size: 18 };
-    switch (platform.toLowerCase()) {
-      case 'github':
-        return <Github {...iconProps} />;
-      case 'linkedin':
-        return <Linkedin {...iconProps} />;
-      case 'twitter':
-        return <Twitter {...iconProps} />;
-      default:
-        return null;
+    if (link.iconUrl) {
+         return <img src={link.iconUrl} alt={link.platform} className="w-[18px] h-[18px] object-contain" />;
+    }
+
+    switch (link.platform.toLowerCase()) {
+      case 'github': return <Github {...iconProps} />;
+      case 'linkedin': return <Linkedin {...iconProps} />;
+      case 'twitter': return <Twitter {...iconProps} />;
+      case 'facebook': return <Facebook {...iconProps} />;
+      case 'instagram': return <Instagram {...iconProps} />;
+      case 'youtube': return <Youtube {...iconProps} />;
+      default: return <LinkIcon {...iconProps} />;
     }
   };
 
   const SocialLinks = () => (
     card.links && card.links.length > 0 ? (
-      <div className={cn("flex gap-3", isTwoColumn ? "justify-start" : "justify-center mt-6 pt-6 border-t border-current/10")}>
+      <div className={cn("flex flex-wrap gap-3", isTwoColumn ? "justify-start" : "justify-center mt-6 pt-6 border-t border-current/10")}>
         {card.links.map((link, index) => (
           <a
             key={index}
@@ -62,12 +82,12 @@ export function CardView({ card, variant = 'preview' }: CardViewProps) {
             target="_blank"
             rel="noopener noreferrer"
             className={cn(
-              'p-2.5 rounded-full transition-all duration-300 hover:-translate-y-1',
+              'p-2.5 rounded-full transition-all duration-300 hover:-translate-y-1 flex items-center justify-center',
               themeClasses.socialLink
             )}
             aria-label={link.platform}
           >
-            {getPlatformIcon(link.platform)}
+            {getIcon(link)}
           </a>
         ))}
       </div>
@@ -76,35 +96,74 @@ export function CardView({ card, variant = 'preview' }: CardViewProps) {
 
   const ContactDetails = () => (
     card.contact && (
-      <div className="space-y-1.5 text-sm">
+      <div className="space-y-1.5 text-sm w-full">
         {card.contact.email && (
-          <div className={cn('flex items-center gap-2', themeClasses.contact)}>
-            <Mail size={16} />
-            <a href={`mailto:${card.contact.email}`} className="no-underline hover:text-inherit">
+          <div className={cn('flex items-start gap-2 text-left', themeClasses.contact)}>
+            <Mail size={16} className="shrink-0 mt-0.5" />
+            <a href={`mailto:${card.contact.email}`} className="no-underline hover:text-inherit break-all">
               {card.contact.email}
             </a>
           </div>
         )}
         {card.contact.phone && (
-          <div className={cn('flex items-center gap-2', themeClasses.contact)}>
-            <Phone size={16} />
+          <div className={cn('flex items-start gap-2 text-left', themeClasses.contact)}>
+            <Phone size={16} className="shrink-0 mt-0.5" />
             <a href={`tel:${card.contact.phone}`} className="no-underline hover:text-inherit">
               {card.contact.phone}
             </a>
           </div>
         )}
         {card.contact.location && (
-          <div className={cn('flex items-center gap-2', themeClasses.contact)}>
-            <MapPin size={16} />
-            <span>{card.contact.location}</span>
+          <div className={cn('flex items-start gap-2 text-left', themeClasses.contact)}>
+            <MapPin size={16} className="shrink-0 mt-0.5" />
+            <span className="break-words">{card.contact.location}</span>
           </div>
         )}
       </div>
     )
   );
 
+  const ExperienceSection = () => (
+    card.experience && card.experience.length > 0 ? (
+      <div className="text-left w-full mt-6 border-t border-current/10 pt-4">
+        <h3 className={cn("text-sm font-bold uppercase tracking-widest mb-3 opacity-80", themeClasses.title)}>經歷 Experience</h3>
+        <div className="space-y-4">
+          {card.experience.map((exp) => (
+            <div key={exp.id} className="relative pl-4 border-l-2 border-current/20">
+              <div className={cn("text-xs font-mono opacity-70 mb-1", themeClasses.company)}>{exp.period}</div>
+              <div className={cn("font-medium", themeClasses.name)}>{exp.title}</div>
+              {exp.description && <div className={cn("text-sm opacity-80 mt-1", themeClasses.bio)}>{exp.description}</div>}
+            </div>
+          ))}
+        </div>
+      </div>
+    ) : null
+  );
+
+  const AwardsSection = () => (
+    card.awards && card.awards.length > 0 ? (
+      <div className="text-left w-full mt-6 border-t border-current/10 pt-4">
+        <h3 className={cn("text-sm font-bold uppercase tracking-widest mb-3 opacity-80", themeClasses.title)}>獲獎 Awards</h3>
+        <div className="space-y-4">
+          {card.awards.map((award) => (
+            <div key={award.id} className="flex gap-3 items-baseline">
+               <div className={cn("text-xs font-mono opacity-70 whitespace-nowrap min-w-[80px]", themeClasses.company)}>{award.date}</div>
+               <div>
+                  <div className={cn("font-medium", themeClasses.name)}>{award.title}</div>
+                  {award.description && <div className={cn("text-sm opacity-80 mt-0.5", themeClasses.bio)}>{award.description}</div>}
+               </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    ) : null
+  );
+
   return (
-    <div className={cn('max-w-2xl mx-auto p-8 rounded-2xl shadow-xl transition-all duration-300', themeClasses.container)}>
+    <div 
+      className={cn('max-w-2xl mx-auto p-8 rounded-2xl shadow-xl transition-all duration-300', themeClasses.container)}
+      style={containerStyle}
+    >
       {isTwoColumn ? (
         <div className="grid grid-cols-1 md:grid-cols-[auto,1fr] gap-8 items-start">
           {/* Left Column: Avatar */}
@@ -127,7 +186,7 @@ export function CardView({ card, variant = 'preview' }: CardViewProps) {
           </div>
 
           {/* Right Column: Info */}
-          <div className="text-left space-y-4">
+          <div className="text-left space-y-4 w-full">
             <div>
               <h1 className={cn('text-3xl font-bold mb-1', themeClasses.name)}>
                 {card.name}
@@ -151,11 +210,14 @@ export function CardView({ card, variant = 'preview' }: CardViewProps) {
             <div className="pt-2">
               <ContactDetails />
             </div>
+
+            <ExperienceSection />
+            <AwardsSection />
           </div>
         </div>
       ) : (
         /* Original Centered Layout (Optimized) */
-        <div className="text-center">
+        <div className="text-center flex flex-col items-center">
           <div className={avatarContainerClasses}>
             {card.avatar ? (
               <img
@@ -197,6 +259,9 @@ export function CardView({ card, variant = 'preview' }: CardViewProps) {
           </div>
 
           <SocialLinks />
+          
+          <ExperienceSection />
+          <AwardsSection />
         </div>
       )}
     </div>

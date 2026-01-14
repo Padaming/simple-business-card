@@ -16,7 +16,8 @@ const mockCard: Card = {
   contact: {
     email: 'test@example.com'
   },
-  socialLinks: []
+  links: [],
+  logo: undefined,
 };
 
 describe('CardView Component', () => {

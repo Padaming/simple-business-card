@@ -1,6 +1,6 @@
 {
   "name": "simple-business-card",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "呈現簡易的電子名片",
   "scripts": {
     "dev": "next dev",
@@ -18,11 +18,14 @@
     "@types/react-dom": "^19.2.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "html-to-image": "^1.11.13",
+    "html2canvas": "^1.4.1",
     "lucide-react": "^0.562.0",
     "next": "^16.1.1",
     "qrcode": "^1.5.4",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
+    "react-draggable": "^4.5.0",
     "tailwind-merge": "^3.4.0",
     "typescript": "^5.9.3"
   },
