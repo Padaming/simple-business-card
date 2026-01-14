@@ -356,6 +356,10 @@ function DraggableElementWrapper({
             fontFamily: element.fontFamily || 'inherit',
             color: element.color || '#000000',
             textAlign: element.align || 'left',
+            // Extended Typography
+            letterSpacing: element.letterSpacing ? `${element.letterSpacing}px` : undefined,
+            fontWeight: element.fontWeight || 'normal',
+            fontStyle: element.italic ? 'italic' : 'normal',
             // Use width/height if set (primarily for images/logos), otherwise auto for text to fit content
             width: isText ? 'auto' : (element.width ? element.width : 'auto'),
             height: isText ? 'auto' : (element.height ? element.height : 'auto'),
