@@ -42,7 +42,7 @@ describe('HomePage', () => {
 
     expect(screen.getByText('目前還沒有名片')).toBeInTheDocument();
     expect(screen.getByText('成為第一個建立名片的人！')).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: '立即免費建立' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: '建立名片' })).toBeInTheDocument();
   });
 
   it('renders cards grid when cards exist', async () => {

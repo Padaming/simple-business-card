@@ -14,8 +14,8 @@ describe('ExampleCards', () => {
       title: 'Developer',
       bio: 'Bio 1',
       avatar: '',
-      socialLinks: {},
-      theme: 'classic'
+      links: [],
+      theme: 'minimal'
     },
     {
       slug: 'card-2',
@@ -23,8 +23,8 @@ describe('ExampleCards', () => {
       title: 'Designer',
       bio: 'Bio 2',
       avatar: '',
-      socialLinks: {},
-      theme: 'modern'
+      links: [],
+      theme: 'gradient'
     },
     {
         slug: 'card-3',
@@ -32,7 +32,7 @@ describe('ExampleCards', () => {
         title: 'Manager',
         bio: 'Bio 3',
         avatar: '',
-        socialLinks: {},
+        links: [],
         theme: 'minimal'
     }
   ];
