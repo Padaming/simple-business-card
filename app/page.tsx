@@ -4,8 +4,6 @@ import { ListCardsUseCase } from '@/domain/use-cases/ListCards';
 import { Button } from '@/presentation/components/ui/button';
 import { Card as CardUI, CardContent } from '@/presentation/components/ui/card';
 
-export const revalidate = 0;
-
 export default async function HomePage() {
   const repository = new JsonCardRepository();
   const listCardsUseCase = new ListCardsUseCase(repository);
