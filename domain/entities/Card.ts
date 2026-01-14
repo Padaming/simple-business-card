@@ -64,6 +64,10 @@ export interface CardElement {
   opacity?: number; // 0.0 to 1.0
   hasBackdropBlur?: boolean;
   zIndex?: number; // Though array order usually handles this, explicit index can help
+  // Typography extended
+  letterSpacing?: number;
+  fontWeight?: string;
+  italic?: boolean;
 }
 
 export interface PhysicalCardSide {
